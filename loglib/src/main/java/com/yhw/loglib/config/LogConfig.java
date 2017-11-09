@@ -6,6 +6,7 @@ package com.yhw.loglib.config;
  */
 
 public class LogConfig {
+
     public static boolean isLog = true;
 
 

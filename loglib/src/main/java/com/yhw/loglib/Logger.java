@@ -5,6 +5,7 @@ import android.util.Log;
 import com.yhw.loglib.config.LogConfig;
 
 /**
+ * 日志打印类
  * Author: yhw on 2017-11-09.
  */
 
