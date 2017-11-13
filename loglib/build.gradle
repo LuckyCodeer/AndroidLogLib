@@ -2,10 +2,77 @@ apply plugin: 'com.android.library'
 apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'com.jfrog.bintray'
 
-def siteUrl = 'https://github.com/' // 项目的主页 这个是说明，可随便填
-def gitUrl = 'https://github.com/' // Git仓库的url 这个是说明，可随便填
-group = "com.yhw.loglib"
 version = "1.0.0"
+def siteUrl = 'https://github.com/LuckyCodeer/AndroidLogLib'   // 项目的主页
+def gitUrl = 'https://github.com/LuckyCodeer/AndroidLogLib.git'   // Git仓库的url
+group = "com.yhw.loglib"            // Maven Group ID for the artifact
+
+install {
+    repositories.mavenInstaller {
+        // This generates POM.xml with proper parameters
+        pom {
+            project {
+                packaging 'aar'
+                // Add your description here
+                name 'An android log print library'
+                //项目的描述 你可以多写一点
+                url siteUrl
+                // Set your license
+                licenses {
+                    license {
+                        name 'The Apache Software License, Version 2.0'
+                        url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id 'yanghongwei'        //填写的一些基本信息
+                        name 'yanghongwei'
+                        email 'yhwvip@vip.qq.com'
+                    }
+                }
+                scm {
+                    connection gitUrl
+                    developerConnection gitUrl
+                    url siteUrl
+                }
+            }
+        }
+    }
+}
+task sourcesJar(type: Jar){
+            from android.sourceSets.main.java.srcDirs
+            classifier = 'sources'
+        }
+//task javadoc(type: Javadoc){
+//options.encoding = 'UTF-8'
+//source = android.sourceSets.main.java.srcDirs
+// classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+//}
+//task javadocJar(type: Jar, dependsOn: javadoc) {
+//    classifier = 'javadoc'
+//    from javadoc.destinationDir
+//}
+artifacts {
+//    archives javadocJar
+    archives sourcesJar
+}
+Properties properties = new Properties()//读取properties的配置信息，当然直接把信息写到代码里也是可以的
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+bintray {
+    user = properties.getProperty("bintray.user")
+    key = properties.getProperty("bintray.apikey")
+    configurations = ['archives']
+    pkg {
+        userOrg = "yanghongwei"
+        repo = "AndroidLogLib"          //这个应该是传到maven的仓库的
+        name = "AndroidLogLib"    //发布的项目名字
+        websiteUrl = siteUrl
+        vcsUrl = gitUrl
+        licenses = ["Apache-2.0"]
+        publish = true
+    }
+}
 
 android {
     compileSdkVersion 25
@@ -34,5 +101,6 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.loopj.android:android-async-http:1.4.9'
     testCompile 'junit:junit:4.12'
 }
