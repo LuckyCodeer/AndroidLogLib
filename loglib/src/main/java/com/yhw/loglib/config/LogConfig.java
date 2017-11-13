@@ -122,7 +122,7 @@ public class LogConfig {
                 if(TextUtils.isEmpty(logConfig.logPath)){
                     throw new IllegalArgumentException("日志路径设置错误，不能为空！");
                 }else{
-                    logConfig.logPath = logConfig.logPath+File.separator+"fflog";
+                    logConfig.logPath = logConfig.logPath+File.separator+"log";
                 }
 
                 //如果名称设置为空或者没有设置 默认将日志名称设置为当前日期

@@ -52,7 +52,7 @@ public final class LogFile {
         try {
             Log.i(TAG,"mOutPutPath: "+mOutPutPath);
             mPathFile = new File(mOutPutPath);
-            if(!mPathFile.isDirectory()){
+            if(mPathFile.isFile()){
                 throw new IllegalArgumentException("日志路径设置错误，必须为目录！");
             }
             boolean b = true;

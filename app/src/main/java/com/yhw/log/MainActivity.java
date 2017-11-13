@@ -1,12 +1,15 @@
 package com.yhw.log;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 
 import com.yhw.loglib.Logger;
 
+/**
+ * demo
+ */
 public class MainActivity extends AppCompatActivity {
     private static final String TAG = MainActivity.class.getSimpleName();
 
@@ -19,7 +22,8 @@ public class MainActivity extends AppCompatActivity {
         logBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Logger.i(TAG, "hello world!");
+                Logger.i("hello world!");
+                Logger.i(TAG,"hello world 2!");
             }
         });
     }

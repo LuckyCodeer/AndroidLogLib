@@ -32,7 +32,7 @@ public class Logger {
             return;
         }
         mLogConfig = logConfig;
-        if(logConfig.isSaveFile()){
+        if(logConfig.isSaveFile() && LogUtil.isExistsSdcard()){
             LogFile.getInstance(mLogConfig).deleteLogFile();
         }
     }
@@ -151,6 +151,16 @@ public class Logger {
         uploadLog.setLogUrl(mLogConfig.getUploadUrl());
         uploadLog.setLogPath(mLogConfig.getLogPath());
         uploadLog.upload();
+    }
+
+    /**
+     * 获取日志路径
+     */
+    public String getLogPath(){
+        if(mLogConfig!=null){
+            return mLogConfig.getLogPath();
+        }
+        return null;
     }
 
 }
