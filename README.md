@@ -3,7 +3,7 @@
 
 # Android Studio 集成
  ```java
-compile 'com.yhw.loglib:loglib:1.0.0'
+compile 'com.yhw.loglib:loglib:1.0.1'
  ```
 
 # 代码中使用
