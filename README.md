@@ -1,11 +1,13 @@
 # AndroidLogLib
 一个Android日志打印工具库
+
 # Android studio使用方法
-compile 'com.yhw.loglib:loglib:1.0.0'
+在gradle中加入 compile 'com.yhw.loglib:loglib:1.0.0'
 
 # 代码中使用
 
-1、在Application中初始化配置
+1.在Application中初始化配置
+ ```java
 //初始化日志配置
 LogConfig logConfig = new LogConfig.Builder()
         .setLog(true) //设置日志打印开关 默认为true
@@ -18,17 +20,19 @@ LogConfig logConfig = new LogConfig.Builder()
         .setMaxSaveDay(7)//设置日志在客户端最大保存天数 默认为7天
         .setUploadUrl("http://xxx") //设置日志上传服务器地址 不上传的情况下可以不设置
         .build();
-//设置日志配置
-Logger.init(logConfig);
+ ```
 
-2、日志打印
+2.日志打印
+ ```java
 如：Logger.i("test");
 或者
 Logger.i("TAG","test");
+ ```
 
-3、日志上传
-必须在初始化的时候设置服务器上传Url才可以
-使用方法
+3.日志上传
+ ```java
+//必须在初始化的时候设置服务器上传Url才可以
+//使用方法
  Logger.upLoadLog(context, new UploadLog.UploadLogListener() {
         @Override
         public void onSuccess(String msg) {
@@ -40,3 +44,4 @@ Logger.i("TAG","test");
             //处理失败
         }
 });
+ ```

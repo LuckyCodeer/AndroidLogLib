@@ -2,6 +2,7 @@ package com.yhw.loglib.http;
 
 import android.content.Context;
 import android.os.Handler;
+import android.util.Log;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.AsyncHttpResponseHandler;
@@ -19,6 +20,7 @@ import cz.msebera.android.httpclient.Header;
  */
 
 public final class UploadLog {
+    private static final String TAG = UploadLog.class.getSimpleName();
     private String mLogUrl; //上传服务器地址
     private String mLogPath; //日志路径
     private Context mContext;
@@ -40,6 +42,7 @@ public final class UploadLog {
             @Override
             public void run() {
                 try {
+                    Log.i(TAG,"mLogPath: "+mLogPath);
                     File file = new File(mLogPath);
                     String logZipPath = file.getParent()+File.separator+"log.zip";
                     zipUtil.setZipListener(new ZipUtil.ZIPListener() {
@@ -73,21 +76,37 @@ public final class UploadLog {
             httpClient.post(mContext, mLogUrl, params, new AsyncHttpResponseHandler() {
                 @Override
                 public void onSuccess(int statusCode, Header[] headers, byte[] responseBody) {
-                    if(mUploadLogListener!=null){
-                        String msg =new String(responseBody);
-                        if(statusCode==200){
-                            mUploadLogListener.onSuccess(msg);
-                        }else{
-                            mUploadLogListener.onFailure(msg,statusCode);
+                    try {
+                        if(mUploadLogListener!=null){
+                            if(responseBody==null){
+                                mUploadLogListener.onFailure("上传日志发生错误！",statusCode);
+                                return;
+                            }
+                            String msg =new String(responseBody);
+                            if(statusCode==200){
+                                mUploadLogListener.onSuccess(msg);
+                            }else{
+                                mUploadLogListener.onFailure(msg,statusCode);
+                            }
                         }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
 
                 @Override
                 public void onFailure(int statusCode, Header[] headers, byte[] responseBody, Throwable error) {
-                    if(mUploadLogListener!=null){
-                        String msg =new String(responseBody);
-                        mUploadLogListener.onFailure(msg,statusCode);
+                    try {
+                        if(mUploadLogListener!=null){
+                            if(responseBody==null){
+                                mUploadLogListener.onFailure("上传日志发生错误！",statusCode);
+                                return;
+                            }
+                            String msg =new String(responseBody);
+                            mUploadLogListener.onFailure(msg,statusCode);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             });
@@ -101,15 +120,11 @@ public final class UploadLog {
         void onFailure(String errorMsg, int errorCode);
     }
 
-    public void setUploadLogListener(UploadLogListener uploadLogListener) {
-        this.mUploadLogListener = uploadLogListener;
-    }
-
     public void setLogUrl(String logUrl) {
-        this.mLogUrl = mLogUrl;
+        this.mLogUrl = logUrl;
     }
 
     public void setLogPath(String logPath) {
-        this.mLogPath = mLogPath;
+        this.mLogPath = logPath;
     }
 }

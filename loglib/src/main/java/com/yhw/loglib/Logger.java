@@ -27,7 +27,7 @@ public class Logger {
     /**
      * 设置配置文件
      */
-    public static void init(LogConfig logConfig){
+    public static void setLogConfig(LogConfig logConfig){
         if(logConfig==null){
             return;
         }
@@ -146,6 +146,9 @@ public class Logger {
     public static void upLoadLog(Context context, UploadLog.UploadLogListener uploadLogListener){
         if(mLogConfig==null){
             throw new IllegalArgumentException("Logger没有初始化成功,LogConfig不能为null！");
+        }
+        if(TextUtils.isEmpty(mLogConfig.getUploadUrl())){
+            throw new IllegalArgumentException("日志服务器上传地址不能为空！");
         }
         UploadLog uploadLog = new UploadLog(context,uploadLogListener);
         uploadLog.setLogUrl(mLogConfig.getUploadUrl());

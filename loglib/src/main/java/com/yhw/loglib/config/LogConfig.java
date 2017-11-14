@@ -2,6 +2,7 @@ package com.yhw.loglib.config;
 
 import android.text.TextUtils;
 
+import com.yhw.loglib.Logger;
 import com.yhw.loglib.utils.DateUtil;
 
 import java.io.File;
@@ -132,6 +133,7 @@ public class LogConfig {
                     logConfig.logFileName = logConfig.logFileName+"_"+DateUtil.getDate();
                 }
             }
+            Logger.setLogConfig(logConfig);
             return logConfig;
         }
     }
