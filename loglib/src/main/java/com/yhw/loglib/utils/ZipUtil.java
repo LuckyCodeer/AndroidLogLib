@@ -10,6 +10,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 /**
+ * 压缩文件工具
  * Author: yhw on 2017-11-13.
  */
 
